@@ -1,0 +1,31 @@
+# Render.com Deployment Configuration
+# This configuration deploys both backend and frontend as a single service
+
+services:
+  - type: web
+    name: fullstack-render-app
+    env: node
+    buildCommand: |
+      echo "Installing root dependencies..."
+      npm install
+      echo "Building frontend..."
+      cd client && npm install && npm run build
+      echo "Installing backend dependencies..."
+      cd ../server && npm install
+      echo "Build complete!"
+    startCommand: |
+      echo "Starting application..."
+      cd server && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        value: mongodb+srv://dark2291_db_user:2MCzDA3IeqS87YPY@cluster0.eepqnff.mongodb.net/fullstack-render-app?appName=Cluster0
+      - key: JWT_SECRET
+        value: your_production_jwt_secret_key_should_be_very_long_and_random
+      - key: CLIENT_URL
+        value: https://fullstack-render-app.onrender.com
+    healthCheckPath: /api/health
+    autoDeploy: true
