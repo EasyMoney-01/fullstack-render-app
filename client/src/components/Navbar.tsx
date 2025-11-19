@@ -9,7 +9,7 @@ const Navbar = () => {
     logout()
     navigate('/')
   }
-
+  
   return (
     <nav className="bg-white shadow-lg">
       <div className="container mx-auto px-4">
